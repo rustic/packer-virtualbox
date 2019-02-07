@@ -1,10 +1,11 @@
-FROM rustic/fedora29-minimal
+FROM fedora:29
 MAINTAINER "Lee Myers" <ichilegend@gmail.com>
 ENV container docker
 USER root
 RUN dnf -y install \
     wget \
     unzip \
+    kmod \
     kernel-devel \
     gcc \
     kernel-headers \
@@ -20,4 +21,5 @@ RUN dnf -y install \
   wget --directory-prefix=/tmp https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
   unzip /tmp/packer_${PACKER_VERSION}_linux_amd64.zip -d /usr/local/bin && \
   rm -rf /var/cache/yum/* && rm -rf /tmp/*
-CMD ["/usr/local/bin/packer"]
+VOLUME [ “/sys/fs/cgroup” ]
+CMD ["/usr/sbin/init"]

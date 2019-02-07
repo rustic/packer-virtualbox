@@ -16,3 +16,6 @@ systemctl start docker
 git clone https://github.com/rustic/packer-virtualbox.git
 export ATLAS_TOKEN="{{fill in atlas token}}"
 cd packer-virtualbox
+https://github.com/rustic/fedora29-minimal.git
+
+docker run -v $(pwd):/tmp -i -t --entrypoint /bin/bash packer-virtualbox
