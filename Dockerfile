@@ -1,11 +1,8 @@
-FROM rustic/centos
+FROM rustic/fedora29-minimal
 MAINTAINER "Lee Myers" <ichilegend@gmail.com>
 ENV container docker
 USER root
-RUN yum -y install epel-release && \
-  yum -y install dnf && \
-  yum clean all && \
-  dnf -y install \
+RUN dnf -y install \
     wget \
     unzip \
     kernel-devel \
@@ -13,8 +10,9 @@ RUN yum -y install epel-release && \
     kernel-headers \
     which \
     make && \
+  dnf -y upgrade && \
   cd /etc/yum.repos.d/ && \
-  wget http://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo && \
+  wget https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo && \
   rpm --import https://www.virtualbox.org/download/oracle_vbox.asc && \
   dnf -y install VirtualBox-6.0 && \
   dnf clean all && \
@@ -22,5 +20,4 @@ RUN yum -y install epel-release && \
   wget --directory-prefix=/tmp https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
   unzip /tmp/packer_${PACKER_VERSION}_linux_amd64.zip -d /usr/local/bin && \
   rm -rf /var/cache/yum/* && rm -rf /tmp/*
-VOLUME [ "/sys/fs/cgroup" ]
-CMD ["/usr/sbin/init"]
+CMD ["/usr/local/bin/packer"]
