@@ -1,5 +1,6 @@
 # Cache objects
 packer_cache/
+sentenv.sh
 
 # For built boxes
 *.box
